@@ -29,7 +29,7 @@ public class TweetController {
                     HttpStatus.NOT_FOUND, "Tweet not found"
             );
         }
-        return tweetService.findTweetById(tweetId);
+        return tweet;
     }
 
     @PostMapping("/tweets")
@@ -44,5 +44,4 @@ public class TweetController {
         response.setStatus(201);
         return tweetService.save(tweet);
     }
-
 }

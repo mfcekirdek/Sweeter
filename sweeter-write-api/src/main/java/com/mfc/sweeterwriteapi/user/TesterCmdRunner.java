@@ -22,6 +22,5 @@ public class TesterCmdRunner implements CommandLineRunner {
 //        userRepository.save(user1);
 //        Optional<User> tmp = userRepository.findById("cf592894-4eed-4672-85b4-e8b5fcdcf830");
 //        System.out.println(tmp);
-
     }
 }

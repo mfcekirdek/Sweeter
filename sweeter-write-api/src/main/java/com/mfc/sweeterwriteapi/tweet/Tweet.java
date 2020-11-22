@@ -42,6 +42,8 @@ public class Tweet {
     @NotNull
     private int replyCount;
 
+    public Tweet() {}
+
     public Tweet(Date createdAt, String content, String authorId, int likeCount, int retweetCount, int replyCount) {
         this.createdAt = createdAt;
         this.content = content;

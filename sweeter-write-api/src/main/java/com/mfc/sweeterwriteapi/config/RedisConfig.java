@@ -1,5 +1,6 @@
 package com.mfc.sweeterwriteapi.config;
 
+import com.mfc.sweeterwriteapi.tweet.Tweet;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,7 +12,9 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.convert.RedisCustomConversions;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.GenericToStringSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
 public class RedisConfig {
@@ -22,12 +25,23 @@ public class RedisConfig {
         return new JedisConnectionFactory();
     }
 
+    @Bean
+    public StringRedisSerializer stringRedisSerializer() {
+        return new StringRedisSerializer();
+    }
+
+    @Bean
+    public GenericJackson2JsonRedisSerializer genericJackson2JsonRedisJsonSerializer() {
+        return new GenericJackson2JsonRedisSerializer();
+    }
+
     // Setting up the Redis template object.
     @Bean
-    public RedisTemplate<String, Object> redisTemplate() {
-        final RedisTemplate<String, Object> redisTemplate = new RedisTemplate<String, Object>();
+    public RedisTemplate<String, Tweet> tweetRedisTemplate() {
+        final RedisTemplate<String, Tweet> redisTemplate = new RedisTemplate<String, Tweet>();
         redisTemplate.setConnectionFactory(jedisConnectionFactory());
-        redisTemplate.setValueSerializer(new GenericToStringSerializer<Object>(Object.class));
+        redisTemplate.setKeySerializer(stringRedisSerializer());
+        redisTemplate.setValueSerializer(genericJackson2JsonRedisJsonSerializer());
         return redisTemplate;
     }
 }
